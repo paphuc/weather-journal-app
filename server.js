@@ -8,7 +8,7 @@ const express = require('express');
 const app = express();
 
 /* Middleware*/
-const bodyParser = require('body-parser'); 
+const bodyParser = require('body-parser');
 
 //Here we are configuring express to use body-parser as middle-ware.
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -25,6 +25,7 @@ app.use(express.static('website'));
 // Setup Server
 // Spin up the server
 const port = 3000;
+
 function listening() {
     console.log('server running');
     console.log(`running on localhost: ${port}`);
@@ -33,18 +34,17 @@ function listening() {
 const server = app.listen(port, listening);
 
 // Initialize all route with a callback function
-app.get('/all', callBack);
-// Callback function to complete GET '/all'
-function callBack(req, res) {
+app.get('/all', getAll);
+// getAll function to send the object 
+function getAll(req, res) {
     res.send(projectData);
 };
 
-const data = []
-
 // Post Route
 app.post('/add', callBack);
+// callBack function to set value into the object
 function callBack(req, res) {
-    console.log(req.body);
-    data.push(req.body);
-    console.log(data);
+    projectData['date'] = req.body.date;
+    projectData['feel'] = req.body.feel;
+    projectData['temp'] = req.body.temp;
 };
