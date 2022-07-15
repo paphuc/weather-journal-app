@@ -1,10 +1,10 @@
 /* Global Variables */
 const units = '&units=imperial';
 const apiKey = 'a15828f41611a50ae523ae36f855361f';
-const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?id=524901&appid=';
+const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?zip=';
 // Create a new date instance dynamically with JS
 let d = new Date();
-let newDate = d.getMonth() + '.' + d.getDate() + '.' + d.getFullYear();
+let newDate = (d.getMonth() + 1) + '.' + d.getDate() + '.' + d.getFullYear();
 
 // postData helps to store data into our server
 const postData = async(url = '', data = {}) => {
@@ -30,14 +30,14 @@ const postData = async(url = '', data = {}) => {
 
 // getTemp fetch data from openweathermap, then call our POST api /add to store data
 const getTemp = async() => {
-    const response = await fetch(baseURL + apiKey);
+    const zip = document.getElementById('zip').value;
+    const response = await fetch(baseURL + zip + '&appid=' + apiKey);
 
     try {
         const newData = await response.json();
         console.log(newData);
-        const zip = document.getElementById('zip').value;
         const feelings = document.getElementById('feelings').value;
-        const content = "Zip code: " + zip + ". Feeling: " + feelings;
+        const content = feelings;
         postData('/add', {
             "date": newDate,
             "feel": content,
