@@ -1,6 +1,6 @@
 /* Global Variables */
 const units = '&units=imperial';
-const apiKey = 'a15828f41611a50ae523ae36f855361f';
+const apiKey = '';
 const baseURL = 'http://api.openweathermap.org/data/2.5/forecast?zip=';
 // Create a new date instance dynamically with JS
 let d = new Date();
@@ -29,10 +29,8 @@ const postData = async(url = '', data = {}) => {
 }
 
 // getTemp fetch data from openweathermap, then call our POST api /add to store data
-const getTemp = async() => {
-    const zip = document.getElementById('zip').value;
-    const response = await fetch(baseURL + zip + '&appid=' + apiKey);
-
+const getTemp = async(url = '') => {
+    const response = await fetch(url);
     try {
         const newData = await response.json();
         console.log(newData);
@@ -54,7 +52,12 @@ document.getElementById('generate').addEventListener('click', performAction);
 
 // performAction control the action for click event
 function performAction(e) {
-    getTemp(baseURL + apiKey)
+    const zip = document.getElementById('zip').value;
+    if (zip == "") {
+        alert("Please input a Zipcode");
+        return;
+    }
+    getTemp(baseURL + zip + '&appid=' + apiKey)
 }
 
 // retrieveData fetch data 
